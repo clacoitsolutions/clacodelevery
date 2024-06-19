@@ -1,0 +1,600 @@
+﻿@model List<DeliveryBoy.Models.PropertyClass>
+
+@*@model DeliveryBoy.Models.PropertyClass*@
+
+@{
+    ViewBag.Title = "Claco Store";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    function UpdateOrderStatus() {
+        // JavaScript function code
+    }
+
+    // Other JavaScript functions
+</script>
+<style>
+    .q1 {
+        box-shadow: 0px 0px 5px #c7c0c0;
+        padding: 15px;
+        height: 400px;
+    }
+
+    .bt1 {
+        margin-top: 130px;
+    }
+
+    .xx1 {
+        height: 500px;
+    }
+
+    @@media only screen and (max-width:767px) {
+        .bt1 {
+            margin-top: 0px !important;
+        }
+
+        .q1 {
+            box-shadow: none;
+            padding-left: 10px;
+            padding-top: 0px;
+            height: 700px !important;
+        }
+
+        .xx1 {
+            height: 700px;
+            margin-top: 10px !important;
+        }
+
+        .fg1 {
+            display: block !important;
+        }
+
+        .fg {
+            display: none !important;
+        }
+    }
+
+    .fg1 {
+        display: none;
+    }
+
+    .fg {
+        display: block;
+    }
+</style>
+
+@*New Script Start By Abhimanyu Singh*@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+
+    function UpdateOrderStatus() {
+        if ($('#ddlOrderStatus').val() == "cancelled") {
+            $('#customCheck1').attr('disabled', 'disabled');
+
+            /*Code is created by abhimanyu sinhh*/
+
+            $('#divDelDate').hide();
+            /*$('#divCollBy').show();*/
+            $('#divCollBy').show();
+            $('#divReason').show();
+            $('#customCheck1').prop('checked', true);
+            $('#ddldelivery').hide();
+            $('#txtCollectedBy').val("Vendor");
+            $('#txtDeliveryReason').hide();
+            $('#divpaymode').hide();
+            $('#divammount').hide();
+            $('#txtbtn1').show();
+            $('#divotp').hide();
+
+
+        }
+        else if ($('#ddlOrderStatus').val() == "Select") {
+            $('#customCheck1').attr('disabled', 'disabled');
+
+            /*Code is created by abhimanyu sinhh*/
+
+            $('#divDelDate').hide();
+            /*$('#divCollBy').show();*/
+            $('#divCollBy').hide();
+            $('#divReason').hide();
+            $('#customCheck1').prop('checked', true);
+            $('#ddldelivery').hide();
+            $('#txtCollectedBy').val("Vendor");
+            $('#txtDeliveryReason').hide();
+            $('#divpaymode').hide();
+            $('#divammount').hide();
+            $('#Payment').hide();
+            $('#txtbtn1').hide();
+            $('#divotp').hide();
+
+
+        }
+        else {
+            $('#customCheck1').removeAttr('disabled');
+
+            $('#divDelDate').show();
+            $('#divCollBy').hide();
+            $('#divReason').hide();
+            $('#divpaymode').show();
+            $('#txtbtn1').show();
+            if ($('#paymode').val() == "Cash")
+
+            {
+                $('#Payment').hide();
+                $('#divammount').show();
+                $('#txtbtn1').show();
+                $('#divotp').show();
+
+
+
+
+            }
+            else if ($('#paymode').val() == "select") {
+                $('#Payment').hide();
+                $('#divammount').hide();
+                $('#txtbtn1').hide();
+                $('#divotp').hide();
+            }
+            else {
+                $('#Payment').show();
+                $('#divammount').show();
+                $('#divotp').show();
+                $('#txtbtn1').hide();
+
+
+
+            }
+
+        }
+    }
+    function OpenHideColl(obj) {
+
+        if ($(obj).is(':checked')) {
+            $('#divCollBy').fadeIn("slow").toggleClass("hidden");
+        } else {
+            $('#divCollBy').fadeOut("slow").toggleClass("hidden");
+        }
+    }
+    function OpenHidePanel(obj) {
+        if ($(obj).is(':checked')) {
+            $('#panel2').show();
+        } else {
+            $('#panel2').hide();
+        }
+    }
+
+
+    function UpdateStatus() {
+        if ($("#hdOrderid").val() == "") {
+            alert("Order Id not found !!!");
+            return;
+        }
+
+        if ($('#ddlOrderStatus').val() == 'ontheway') {
+            if ($("#ddlDeliverBoy").val() == "") {
+                alert("Please Enter Delivery Boy !!!");
+                $("#ddlDeliverBoy").focus();
+                return;
+            }
+        }
+
+
+
+
+
+        if ($('#ddlOrderStatus').val() == 'Delivered') {
+            if ($("#txtDelDate").val() == "") {
+                alert("Please Enter Delivery Date !!!");
+                $("#txtDelDate").focus();
+                return;
+            }
+        }
+
+            @*var paystatus = "pending";
+            paystatus = '@Model.paystatus';*@
+
+        //if (paystatus == "pending") {
+        //    if ($("#customCheck1").prop('checked') == false) {
+        //        alert("please Upload Payment First");
+        //        return false;
+        //    }
+        //    else {
+        //        paystatus = "success";
+        //    }
+        //}
+        if ($('#ddlOrderStatus').val() == 'cancelled') {
+            if ($("#txtCancelReason").val() == "") {
+                alert("Please Enter Reason !!!");
+                $("#txtCancelReason").focus();
+
+                /*Code Created By Abhimanyu Singh*/
+
+                $("#customCheck1").prop("checked", true);
+                return;
+            }
+        }
+        if ($('#customCheck1').is(':checked')) {
+            if ($("#txtCollectedBy").val() == "") {
+                alert("Please Enter Payment Collecter Name !!!");
+                $("#txtCollectedBy").focus();
+                return;
+            }
+        }
+
+
+
+        var paystatus = $("#paymode").val();
+        //alert(paystatus);
+
+        var stat;
+
+        if (paystatus == "Cash") {
+
+            stat = "Success"
+           // alert(stat);
+
+        }
+        else {
+            stat = "pending"
+            //alert(stat);
+        }
+
+
+
+
+
+        var dataobject = {
+            OrderId: $("#hdOrderid").val(),
+            Description: $("#txtCancelReason").val(),
+            mDate: $("#txtDelDate").val(),
+            Status: $("#ddlOrderStatus").val(),
+            deliveryboy: $("#ddlDeliverBoy").val(),
+            deliveryboyReason: $("#txtDeliveryReason").val(),
+            DeliveryTo: null,
+            SupplierAccCode: $("#txtCollectedBy").val(),
+            PaymentResponse: stat,
+
+            paymode: $("#paymode").val(),
+            Action: "1",
+            otp: $("#otp").val()
+        };
+
+        //var dataobject = {
+        //    OrderId: $("#hdOrderid").val(),
+        //    Description: $("#txtCancelReason").val(),
+        //    mDate: $("#txtDelDate").val(),
+        //    Status: $("#ddlOrderStatus").val(),
+        //    deliveryboy: $("#ddlDeliverBoy").val(),
+        //    deliveryboyReason: $("#txtDeliveryReason").val(),
+        //    DeliveryTo: null,
+        //    SupplierAccCode: $("#txtCollectedBy").val(),
+        //    paystatus: paystatus,
+        //    Action: "2"
+        //};
+        $("#showSpinner").show();
+        $.ajax({
+            url: "/Home/updateOrderStatus",
+            type: "POST",
+            contentType: false,
+            processData: false,
+            //data: dataobject,
+            data: JSON.stringify(dataobject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+                if (r.strId == '1') {
+                    //  alert(r.msg);
+                    document.getElementById("msgSpan").innerHTML = r.msg;
+                    setTimeout(function () {
+                        var url = '../Home/Index';
+                        window.location.href = url;
+                    }, 3000);
+                }
+                else {
+                    alert('Server not Responding !!!');
+                    $("#showSpinner").hide();
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert('Please Check values Entered by you !!!');
+                $("#showSpinner").hide();
+            }
+        });
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        var status = "@ViewBag.Status"; // Get the value of ViewBag.Status
+
+        // Check if status is 'delivered' or 'cancelled'
+        if (status === 'Delivered' || status === 'cancelled') {
+            $('#checkbox1').hide(); // Hide the div with ID 'checkbox'
+        }
+    });
+</script>
+
+
+
+
+@using System.Data
+@using System.Data.SqlClient
+
+<div class="row xx1" style="margin-top:130px;">
+    <div class="col-sm-2"></div>
+    <input type="hidden" id="hdOrderid" name="hdOrderid" value="@ViewBag.OrderId" readonly />
+
+
+    <div class="col-sm-8 mb-4 q1">
+
+        <div class="row">
+            <div class="col-sm-4">
+                <p style="font-size:20px;font-weight:bold;color:#fa2365;">Order Id: @ViewBag.OrderId</p>
+                <span style="color: #808080; font-size: 18px; font-weight: bold;">Name: @ViewBag.SSName </span><br />
+                <span style="color:#808080;font-size:15px;">Address: @ViewBag.Address</span><br />
+                <span style="color:#808080;font-size:15px;">Mobile No: @ViewBag.ContactNo</span><br /><br />
+                <p>Status : @ViewBag.Status</p>
+
+                <p>Mode of Payment: @ViewBag.PayMode</p>
+
+                <p>Discount: @ViewBag.DiscAmt</p>
+
+                <p>Gst: @ViewBag.gstamount</p>
+
+                <p>ReturnDate: @ViewBag.ReturnDate</p>
+
+            </div>
+            <div class="col-sm-4 bt1">
+                <p>Gross Payable: @ViewBag.GrossPayable</p>
+                <p>Delivery Charge: @ViewBag.deliverycharges</p>
+                <p>Payment  status: @ViewBag.paystatus</p>
+                <p>Total: @ViewBag.NetTotal</p>
+                <p>Reason ; @ViewBag.ReturnReasondes</p>
+            </div>
+            <div class="col-sm-4 bt1">
+                <p style="font-weight:bold;">Return And Refund Policy: @ViewBag.ReturnAndRefundPolicy</p>
+                <p style="font-weight:bold;">Delivery TIme: @ViewBag.DeliveryTime</p>
+                <p style="font-weight:bold;">Date: @ViewBag.EwayBillNo</p>
+                <p style="font-weight:bold;">CoupenAmount: @ViewBag.CoupenAmount</p>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="col-sm-2"></div>
+</div>
+@*New Code Started By Abhimanyu Singh*@
+
+
+
+
+@foreach (var item in Model)
+{
+    <div class="row fg">
+        <div class="col-lg-12">
+            <div class="table-responsive">
+                <table id="tblItemHead" class="table table-centered table-borderless table-hover mb-0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Sr.No</th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>size</th>
+                            <th>Unit Rate</th>
+                            <th>Gst Amount</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (item.dt1 != null && item.dt1.Rows.Count > 0)
+                        {
+                            int i = 0;
+
+                            foreach (DataRow row in item.dt1.Rows)
+                            {
+                                i++;
+                                <tr>
+                                    <td>@i</td>
+                                    <td class="table-user" nowrap>
+                                        <img src="@row["Mainimage"]" alt="@row["ProductName"]" class="mr-2 rounded-circle" style="height:40px;width:40px">
+                                        <a href="../Ecommarce/update_Product?ProductId=@row["ItemCode"]" class="text-body font-weight-semibold" target="_blank">@row["ProductName"]</a><br />
+                                        @if (Convert.ToString(@row["VarriationName"]) != "")
+                                        {
+                                            <span class="badge badge-success">@row["VarriationName"]</span>
+                                        }
+                                    </td>
+                                    <td>@row["Quantity"]</td>
+                                    <td>@row["Size"]</td>
+                                    <td>@row["UnitRate"]</td>
+                                    <td>@row["GstAmount"]</td>
+                                    <td>@row["TotalAmount"]</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+}
+
+@foreach (var item in Model)
+{
+
+    <div class="row fg1" style="padding-left:30px;">
+        <div class="col-sm-2"></div>
+        @if (item.dt1 != null && item.dt1.Rows.Count > 0)
+        {
+            int i = 0;
+
+            foreach (DataRow row in item.dt1.Rows)
+            {
+                i++;
+
+                <div class="col-sm-8 mt-2" style="min-height:130px;border:1px solid grey;">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <img src="@row["Mainimage"]" alt="@row["ProductName"]" class="mr-2" style="height:110px;width:100px;float:left;margin-top:10px;">
+                            <span style="font-size: 15px; font-weight: bold; margin-left: 10px;margin-top:5px;"><a href="../Ecommarce/update_Product?ProductId=@row["ItemCode"]" target="_blank" style="text-decoration:none;">@row["ProductName"]</a></span><br />
+                            @if (Convert.ToString(@row["VarriationName"]) != "")
+                            {
+                                <span class="badge badge-success">@row["VarriationName"]</span>
+                            }
+                            <span style="font-size:14px;margin-left:10px;">Quantity: @row["Quantity"]</span><br />
+                            <td>Size: @row["Size"]</td>
+                            <span style="font-size:14px;margin-left:10px;">Unit Rate: @row["UnitRate"]</span><br />
+                            <span style="font-size:14px;margin-left:10px;">Gst Amount: @row["GstAmount"]</span><br />
+                            <span style="font-size:14px;margin-left:10px;">Total: @row["TotalAmount"]</span>
+                        </div>
+                        <div class="col-sm-6">
+
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        <div class="col-sm-2"></div>
+    </div>
+}
+<br />
+<br />
+
+
+@*Here Update Status Code*@
+<div class="row">
+
+    <div class="mt-3 ml-3 col-sm-12" id="checkbox1">
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="customCheck2" onchange="OpenHidePanel(this)">
+            <label class="custom-control-label" for="customCheck2" style="font-size:18px;font-weight:bold;">Update Order Status</label>
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="row mt-4">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+        <br />
+        <div id="panel2" style="border:1px solid grey;min-height:300px;display:none;">
+
+            <div id="panel1" style="padding:20px;">
+
+                @if (@ViewBag.PayMode == "Cash on Delivery")
+                {
+
+
+                    <div class="col-sm-4">
+                        <label style="font-weight:bold;">Status</label>
+                        <select class="custom-select form-control" id="ddlOrderStatus" onchange="UpdateOrderStatus()">
+
+                            <option value="Select">Select</option>
+                            <option value="Delivered">Delivered</option>
+                            <option value="cancelled">Cancelled</option>
+
+                        </select>
+                    </div>
+
+
+                    <br />
+                    @*<div class="col-sm-4">
+                            <div id="divDelDate" style="display:none;">
+                                <label style="font-weight:bold;">Delivery Date</label>
+                                <input type="date" class="form-control" placeholder="Payment Collected By" id="txtDelDate" />
+                            </div>
+
+                        </div>*@
+
+                    <div class="mt-3" id="divReason" style="display:none">
+                        <label>Cancel Reason</label>
+                        <input type="text" class="form-control" placeholder="Enter Reason" id="txtCancelReason" />
+                    </div>
+
+                    <div class="col-sm-4" id="divpaymode" style="display:none;">
+                        <br />
+                        <label style="font-weight:bold;">Payment Mode</label>
+                        <select class="custom-select form-control" id="paymode" onchange="UpdateOrderStatus()">
+
+                            <option value="select">Select</option>
+                            <option value="Cash">Cash</option>
+                            <option value="Online">Online</option>
+
+                        </select>
+                    </div>
+                    <br />
+                    <div id="divammount" style="display:none;">
+                        <input type="text" id="txtammount" value="@ViewBag.NetTotal" readonly />
+                    </div>
+                    //new  Code Created By Abhimanyu Singh
+
+                    <div id="divotp" style="display:none;">
+                        <input type="text" id="otp" placeholder="Enter Otp" />
+                    </div>
+
+                    // End Code By abhimanyu Singh
+
+                    <br />
+                    <div class="col-sm-4" id="Payment" style="height:40px;width:150px;background:#fa2365;text-align:center;padding:5px;display:none;">
+                        @*<a href="/ccavRequestHandler.aspx" style="text-decoration:none;font-size:18px;color:white;">Click Here</a>*@
+
+
+
+                        <a href="/ccavRequestHandler.aspx?NetTotal=@ViewBag.NetTotal&amp;OrderId=@ViewBag.OrderId" style="text-decoration:none;font-size:18px;color:white;">Click Here</a>
+                    </div>
+
+
+
+                    <div class="row" id="txtbtn1" style="display:none">
+                        <div class="col-md-12" style="text-align:right">
+                            <input type="submit" id="btnUpdateStatus" class="btn btn-warning btn-sm" value="Update Order Status" onclick="UpdateStatus()" />
+                        </div>
+                    </div>
+
+                }
+
+
+                else
+                {
+
+
+                    <div class="col-sm-4">
+                        <label>Status</label>
+                        <select class="custom-select" id="ddlOrderStatus" onchange="UpdateOrderStatus()">
+                            <option value="">Select</option>
+                            <option value="Delivered">Delivered</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+
+                    <div class="mt-3" id="divReason" style="display:none">
+                        <label>Cancel Reason</label>
+                        <input type="text" class="form-control" placeholder="Enter Reason" id="txtCancelReason" />
+                    </div>
+                    <div id="divammount" style="display:none;">
+                        <input type="text" id="txtammount" value="@ViewBag.NetTotal" readonly />
+                    </div>
+                    //new  Code Created By Abhimanyu Singh
+
+                    <div id="divotp" style="display:none;">
+                        <input type="text" id="otp" placeholder="Enter Otp" />
+                    </div>
+
+
+
+                    <input type="submit" id="btnUpdateStatus" class="btn btn-warning btn-sm" value="Update Order Status" onclick="UpdateStatus()" />
+                }
+            </div>
+            <span id="msgSpan" style="color: green; font-weight: bold;"></span>
+
+        </div>
+    </div>
+    <div class="col-sm-4"></div>
+</div>
+
+
+

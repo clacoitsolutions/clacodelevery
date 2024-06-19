@@ -1,0 +1,105 @@
+﻿@{
+    ViewBag.Title = "PaymentDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .y1 {
+        box-shadow: 0px 0px 5px #757575;
+        margin-top: 40px;
+        background-color: #ED1A63;
+        text-align: center; /* Center align text in .y1 */
+        position: relative; /* Ensure container is positioned relative */
+        margin-bottom: 25px; /* Add margin at the bottom for spacing */
+    }
+
+        .y1 img {
+            width: 100%; /* Ensure image takes full width */
+            height: auto; /* Maintain aspect ratio */
+            display: block; /* Ensure image behaves as a block element */
+            margin: 0 auto; /* Center image horizontally */
+            position: relative; /* Ensure image's positioning relative to parent */
+            top: -10%; /* Move the image up by 10% */
+        }
+
+        .y1 .details {
+            padding: 20px; /* Padding for details */
+            color: white;
+            font-size: 20px;
+            text-align: center;
+            position: absolute; /* Position details absolutely */
+            bottom: 0; /* Align details to the bottom */
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background for readability */
+        }
+
+            .y1 .details p {
+                margin: 0; /* Remove default margin */
+                padding: 0; /* Remove default padding */
+            }
+
+    /* Style for the "Payment Details" heading */
+    .payment-details-heading {
+        color: #333; /* Darker color for better contrast */
+        font-family: 'Arial', sans-serif; /* Font family */
+        font-size: 28px; /* Larger font size */
+        font-weight: bold; /* Bold font weight */
+        margin-top: 15px; /* Margin at the top */
+        margin-bottom: 20px; /* Margin at the bottom */
+        text-align: center; /* Center align text */
+    }
+
+    /* Media query for mobile view */
+    @@media (max-width: 576px) {
+        .y1 {
+            padding: 0; /* Remove padding for full screen effect */
+        }
+
+            .y1 img {
+                height: 100vh; /* Full viewport height for the image */
+                object-fit: cover; /* Ensure image covers the entire container */
+            }
+
+            .y1 .details {
+                padding: 5px; /* Adjust padding for better readability */
+            }
+    }
+
+    .hr-center {
+        width: 60%;
+        height: 1px;
+        background-color: black;
+        border: none;
+        margin: 0 auto; /* Center horizontally */
+    }
+</style>
+
+
+<div class="container-fluid">
+    <h2 class="payment-details-heading" style="margin-top: 10px;">Payment Details</h2>
+
+    <div class="text-center" style="margin-bottom: 10px;">
+        <!-- Adjusted margin-bottom -->
+        <hr class="hr-center">
+    </div>
+
+    <div class="row" style="margin-top: -10px;">
+        <!-- Adjusted margin-top -->
+        <div class="col-sm-2"></div>
+
+        <div class="col-sm-8 y1">
+            <img src="~/Content/img/qr2-removebg-preview (1).png" alt="Your Image Description">
+            <div class="details">
+                <p style="color: white; font-size: 13px;">Account Number: <strong>7309 0500 0544</strong></p>
+                <p style="color: white; font-size: 13px;">IFSC Code : <strong>ICIC0007309</strong></p>
+                <p style="color: white; font-size: 13px;">UPI ID : <strong>clacoonlineservices@icici</strong></p>
+            </div>
+        </div>
+
+        <div class="col-sm-2"></div>
+    </div>
+</div>
+
+
+
+

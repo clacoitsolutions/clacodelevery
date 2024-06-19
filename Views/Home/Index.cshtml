@@ -1,0 +1,227 @@
+﻿
+@model List<DeliveryBoy.Models.PropertyClass>
+@{
+    ViewBag.Title = "Claco Store";
+}
+
+
+<link rel="icon" type="image/png" href="~/Content/img/calco1.png">
+<link href="~/Content/StyleSheet1.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap.bundle.js"></script>
+<script src="~/Scripts/bootstrap.bundle.min.js"></script>
+
+
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .st {
+        font-family: Verdana, sans-serif;
+    }
+
+    .mySlides {
+        display: none;
+    }
+
+    /* Slideshow container */
+    .slideshow-container {
+        max-width: 1000px;
+        position: relative;
+        height: 300px;
+    }
+
+    /* Caption text */
+    .text {
+        color: #f2f2f2;
+        font-size: 15px;
+        padding: 8px 12px;
+        position: absolute;
+        bottom: 8px;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Number text (1/3 etc) */
+    .numbertext {
+        color: #f2f2f2;
+        font-size: 12px;
+        padding: 8px 12px;
+        position: absolute;
+        top: 0;
+    }
+
+
+    /* The dots/bullets/indicators */
+    .dot {
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+        transition: background-color 0.6s ease;
+    }
+
+    .active {
+        background-color: #717171;
+    }
+
+    /* Fading animation */
+    .fade {
+        animation-name: fade;
+        animation-duration: 5.5s;
+    }
+
+    @@keyframes fade {
+        from {
+            opacity: .4
+        }
+
+        to {
+            opacity: 1
+        }
+    }
+
+    /* On smaller screens, decrease text size */
+    @@media only screen and (max-width: 250px) {
+        .text {
+            font-size: 11px
+        }
+
+        .card-text {
+            font-size: 3px;
+        }
+    }
+
+    /* On smaller screens, decrease text size and adjust image height */
+    @@media only screen and (max-width: 767px) {
+        .slideshow-container {
+            height: 250px; /* Set height to 300px for smaller screens */
+        }
+
+        .mySlides img {
+            height: 250px; /* Adjust image height accordingly */
+        }
+    }
+
+    /* On larger screens, set image height to 350px */
+    @@media only screen and (min-width: 768px) {
+        .mySlides img {
+            height: 350px; /* Set height to 350px for larger screens */
+        }
+    }
+</style>
+
+<div class="container-fluid" style="padding:0px!important">
+
+    <div class="slideshow-container-fluid st" style="width:100%;">
+
+        <div class="mySlides fade">
+
+            <img src="../Content/img/banner.png" style="width:100%;height:350px;">
+
+        </div>
+
+        <div class="mySlides fade">
+
+            <img src="../Content/img/banner1.png" style="width:100%;height:350px;">
+
+        </div>
+
+        <div class="mySlides fade">
+
+            <img src="../Content/img/banner2.png" style="width:100%;height:350px;">
+
+        </div>
+
+    </div>
+    <br>
+
+    <div style="text-align:center;display:none;">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+    </div>
+</div>
+
+
+
+<script>
+    let slideIndex = 0;
+    showSlides();
+
+    function showSlides() {
+        let i;
+        let slides = document.getElementsByClassName("mySlides");
+        let dots = document.getElementsByClassName("dot");
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) { slideIndex = 1 }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex - 1].style.display = "block";
+        dots[slideIndex - 1].className += " active";
+        setTimeout(showSlides, 1500); // Change image every 2 seconds
+    }
+</script>
+
+
+
+
+
+
+
+
+<div class="container-fluid">
+    @if (!Model.Any())
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-center">
+                    <img src="~/Content/img/screenshot-.png" alt="No Data Available" class="img-fluid" />
+                    <p>No data available</p>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @{
+                int counter = 1;
+            }
+            @foreach (var item in Model)
+            {
+                <div class="col-md-3">
+                    <div onclick="window.location='/Home/ManageOrder?OrderId=@item.OrderId'" style="cursor: pointer;">
+                        <div class="card mb-3" style="max-width: 640px;">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card-body" style="box-shadow: 0px 0px 5px #757575;">
+                                        <center><h5 class="card-title" style="color:#fa2365;"> @item.OrderId</h5></center><br />
+                                        <span class="card-text">Order Status: @item.OrderStatus</span>
+                                        <span class="card-text" style="float:right;">Delivery Status: @item.DeliveryStatus</span><br />
+                                        <span class="card-text">Payment Mode: @item.PayMode</span>
+                                        <span class="card-text" style="float:right;">Payment Status: @item.paystatus</span><br />
+                                        <span class="card-text">Delivery Time: @item.DeliveryTime</span>
+                                        <span class="card-text" style="float:right;">Quantity: @item.TotalQuantity</span><br />
+                                        <p class="card-text">Price : @item.GrossPayable</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                counter++;
+            }
+        </div>
+    }
+</div>
+
+
